@@ -15,7 +15,7 @@
     }
     
     void Mesh::moveAnchor(movementVector velocity, float tick){
-        this->anchor->x += velocity.x * tick;
-        this->anchor->y += velocity.y * tick;
-        this->anchor->z += velocity.z * tick;
+        this->anchor->position.x += velocity.x * tick;
+        this->anchor->position.y += velocity.y * tick;
+        this->anchor->position.z += velocity.z * tick;
     };
