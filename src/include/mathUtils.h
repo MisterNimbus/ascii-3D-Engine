@@ -37,6 +37,13 @@ public:
 struct rotationVector
 {
     float roll, yaw, pitch;
+
+    rotationVector operator+=(rotationVector vector){
+        this->roll += vector.roll;
+        this->yaw += vector.yaw;
+        this->pitch += vector.pitch;
+        return *this;
+    }
 };
 
 struct movementVector

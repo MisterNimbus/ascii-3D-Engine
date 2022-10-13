@@ -44,54 +44,20 @@ void pointRotationTest(){
     }
 }
 
-
-void pointRotationTest2(){
+void rotationTest3(){
     Point point(1.0f,2.0f,3.0f);
     point.log();
-    rotationVector rotationStep = {90.0f,45.0f,90.0f};
+    rotationVector rotationStep = {90.0f,90.0f,90.0f};
     rotationVector rotation = {0.0f,0.0f,0.0f};
-    Point pointBuffer = point;
-
     while(true){
-        
-        /*std::cout << "\n\n======== ROLL ========";
-        rotation.roll += rotationStep.roll;
-        pointBuffer.rotateRoll(rotation.roll);
+        point.rotate(rotationStep);
+        rotation += rotationStep;
         std::cout   << "\nRotation:"
                     << "\n     Pitch: " << rotation.pitch 
                     << "\n      Roll: " << rotation.roll 
                     << "\n       Yaw: " << rotation.yaw;
-        pointBuffer.log();
-        */
-        //pointBuffer = point;
-        //std::cout << "before<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n";
-        //pointBuffer.log();
-        usleep(500000);
         
-        std::cout << "\n\n======== YAW =========";
-        rotation.yaw += rotationStep.yaw;
-        pointBuffer.rotateYaw(rotationStep.yaw);
-        std::cout   << "\nRotation:"
-                    << "\n     Pitch: " << rotation.pitch 
-                    << "\n      Roll: " << rotation.roll 
-                    << "\n       Yaw: " << rotation.yaw;
-        pointBuffer.log();
-        /*
-        pointBuffer = point;
-        usleep(5000000);
-
-        std::cout << "\n\n======== PITCH =======";
-        rotation.pitch += rotationStep.pitch;
-        pointBuffer.rotatePitch(rotation.pitch);
-        std::cout   << "\nRotation:"
-                    << "\n     Pitch: " << rotation.pitch 
-                    << "\n      Roll: " << rotation.roll 
-                    << "\n       Yaw: " << rotation.yaw;
-        pointBuffer.log();
-        
-        pointBuffer = point;
-        usleep(5000000);
-        */
+        point.log();
     }
 }
 
@@ -238,7 +204,7 @@ int main(){
     Engine * demo = new Engine();
     demo->initialize(1.0f, 1000.0f, 5.0f);
     
-    pointRotationTest();
+    rotationTest3();
 
     return 0;
 }
