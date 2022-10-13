@@ -14,15 +14,15 @@
         this->objects.push_back(object);
     }
     void Engine::multiplyProjectionMatrix(Point &input, Point &output, mat4x4 &projectionMatrix){
-        output.x = input.x * projectionMatrix.m[0][0] + input.y * projectionMatrix.m[1][0] + input.z * projectionMatrix.m[2][0]+ projectionMatrix.m[3][0];
-        output.y = input.x * projectionMatrix.m[0][1] + input.y * projectionMatrix.m[1][1] + input.z * projectionMatrix.m[2][1]+ projectionMatrix.m[3][1];
-        output.z = input.x * projectionMatrix.m[0][2] + input.y * projectionMatrix.m[1][2] + input.z * projectionMatrix.m[2][2]+ projectionMatrix.m[3][2];
-        float w  = input.x * projectionMatrix.m[0][3] + input.y * projectionMatrix.m[1][3] + input.z * projectionMatrix.m[2][3]+ projectionMatrix.m[3][3];
+        output.position.x = input.position.x * projectionMatrix.m[0][0] + input.position.y * projectionMatrix.m[1][0] + input.position.z * projectionMatrix.m[2][0]+ projectionMatrix.m[3][0];
+        output.position.y = input.position.x * projectionMatrix.m[0][1] + input.position.y * projectionMatrix.m[1][1] + input.position.z * projectionMatrix.m[2][1]+ projectionMatrix.m[3][1];
+        output.position.z = input.position.x * projectionMatrix.m[0][2] + input.position.y * projectionMatrix.m[1][2] + input.position.z * projectionMatrix.m[2][2]+ projectionMatrix.m[3][2];
+        float w  = input.position.x * projectionMatrix.m[0][3] + input.position.y * projectionMatrix.m[1][3] + input.position.z * projectionMatrix.m[2][3]+ projectionMatrix.m[3][3];
         if(w != 0.0f)
         {
-            output.x /= w;
-            output.y /= w;
-            output.z /= w;
+            output.position.x /= w;
+            output.position.y /= w;
+            output.position.z /= w;
         }
     }
 
@@ -31,12 +31,12 @@
         return &projectionMatrix;
     };
 
-    void Engine::initialize(){
+    // zOffsetNear closest distance to be rendered from the camere (screen)
+    // zFurthest furthest distance to be rendered from the camera
+    // fieldOfView in degrees
+    void Engine::initialize(float zOffsetNear, float zFurthest, float fieldOfView){
 
-        // Projection Matrix
-        float zOffsetNear = 20.1f;  // closest distance to be rendered from the camere (screen)
-        float zFurthest = 300.0f; // furthest distance to be rendered from the camera
-        float fieldOfView = 15.0f; // in degrees
+        // Setting up Projection Matrix
         float fieldOfViewRad = 1.0f / tanf(fieldOfView / 180.0f * 3.14159f);
         float aspectRatio = (float) SCREEN_HEIGHT / (float) SCREEN_WIDTH;
 
@@ -47,110 +47,22 @@
         projectionMatrix.m[2][3] = 1.0f;
         projectionMatrix.m[3][3] = 0.0f;
 
-
-        Object * cube = new Object();
-        /*
-        //Front
-        cube->mesh.addTriangle(0.0f,0.0f,0.0f,    0.0f,1.0f,0.0f,   1.0f,1.0f,0.0f);
-        cube->mesh.addTriangle(0.0f,0.0f,0.0f,    1.0f,1.0f,0.0f,   1.0f,0.0f,0.0f);
-        
-        //Right
-        cube->mesh.addTriangle(1.0f,0.0f,0.0f,    1.0f,1.0f,0.0f,   1.0f,1.0f,1.0f);
-        cube->mesh.addTriangle(1.0f,0.0f,0.0f,    1.0f,1.0f,1.0f,   1.0f,0.0f,1.0f);
-        
-        //Left
-        cube->mesh.addTriangle(0.0f,0.0f,1.0f,    0.0f,1.0f,1.0f,   0.0f,1.0f,0.0f);
-        cube->mesh.addTriangle(0.0f,0.0f,1.0f,    0.0f,1.0f,0.0f,   0.0f,0.0f,0.0f);
-        
-        //Back
-        cube->mesh.addTriangle(1.0f,0.0f,1.0f,    1.0f,1.0f,1.0f,   0.0f,1.0f,1.0f);
-        cube->mesh.addTriangle(1.0f,0.0f,1.0f,    0.0f,1.0f,1.0f,   0.0f,0.0f,1.0f);
-
-        //Top
-        cube->mesh.addTriangle(0.0f,1.0f,0.0f,    0.0f,1.0f,1.0f,   1.0f,1.0f,1.0f);
-        cube->mesh.addTriangle(0.0f,1.0f,0.0f,    1.0f,1.0f,1.0f,   1.0f,1.0f,0.0f);
-
-        //Bottom
-        cube->mesh.addTriangle(1.0f,0.0f,1.0f,    0.0f,0.0f,1.0f,   0.0f,0.0f,0.0f);
-        cube->mesh.addTriangle(1.0f,0.0f,1.0f,    0.0f,0.0f,0.0f,   1.0f,0.0f,0.0f);
-        */
-        
-        // This can also be done by writing one surface by hand and rotating it with triangle.rotate() for each other surface.
-        float cubeWidth = 20;
-        //Front
-        /*
-        cube->mesh.addTriangle(-cubeWidth/2,-cubeWidth/2,-cubeWidth/2,    -cubeWidth/2,cubeWidth/2,-cubeWidth/2,   cubeWidth/2,cubeWidth/2,-cubeWidth/2);
-        cube->mesh.addTriangle(-cubeWidth/2,-cubeWidth/2,-cubeWidth/2,    cubeWidth/2,cubeWidth/2,-cubeWidth/2,   cubeWidth/2,-cubeWidth/2,-cubeWidth/2);
-        
-        //Right
-        cube->mesh.addTriangle(cubeWidth/2,-cubeWidth/2,-cubeWidth/2,    cubeWidth/2,cubeWidth/2,-cubeWidth/2,   cubeWidth/2,cubeWidth/2,cubeWidth/2);
-        cube->mesh.addTriangle(cubeWidth/2,-cubeWidth/2,-cubeWidth/2,    cubeWidth/2,cubeWidth/2,cubeWidth/2,   cubeWidth/2,-cubeWidth/2,cubeWidth/2);
-        
-        //Left
-        cube->mesh.addTriangle(-cubeWidth/2,-cubeWidth/2,cubeWidth/2,    -cubeWidth/2,cubeWidth/2,cubeWidth/2,   -cubeWidth/2,cubeWidth/2,-cubeWidth/2);
-        cube->mesh.addTriangle(-cubeWidth/2,-cubeWidth/2,cubeWidth/2,    -cubeWidth/2,cubeWidth/2,-cubeWidth/2,   -cubeWidth/2,-cubeWidth/2,-cubeWidth/2);
-        
-        //Back
-        cube->mesh.addTriangle(cubeWidth/2,-cubeWidth/2,cubeWidth/2,    cubeWidth/2,cubeWidth/2,cubeWidth/2,   -cubeWidth/2,cubeWidth/2,cubeWidth/2);
-        cube->mesh.addTriangle(cubeWidth/2,-cubeWidth/2,cubeWidth/2,    -cubeWidth/2,cubeWidth/2,cubeWidth/2,   -cubeWidth/2,-cubeWidth/2,cubeWidth/2);
-
-        //Top
-        cube->mesh.addTriangle(-cubeWidth/2,cubeWidth/2,-cubeWidth/2,    -cubeWidth/2,cubeWidth/2,cubeWidth/2,   cubeWidth/2,cubeWidth/2,cubeWidth/2);
-        cube->mesh.addTriangle(-cubeWidth/2,cubeWidth/2,-cubeWidth/2,    cubeWidth/2,cubeWidth/2,cubeWidth/2,   cubeWidth/2,cubeWidth/2,-cubeWidth/2);
-
-        //Bottom
-        cube->mesh.addTriangle(cubeWidth/2,-cubeWidth/2,cubeWidth/2,    -cubeWidth/2,-cubeWidth/2,cubeWidth/2,   -cubeWidth/2,-cubeWidth/2,-cubeWidth/2);
-        cube->mesh.addTriangle(cubeWidth/2,-cubeWidth/2,cubeWidth/2,    -cubeWidth/2,-cubeWidth/2,-cubeWidth/2,   cubeWidth/2,-cubeWidth/2,-cubeWidth/2);
-        */
-
-        //Front
-        cube->mesh.addTriangle(-cubeWidth/2,-cubeWidth/2,-cubeWidth/2 + Z_OFFSET,    -cubeWidth/2,cubeWidth/2,-cubeWidth/2 + Z_OFFSET,   cubeWidth/2,cubeWidth/2,-cubeWidth/2 + Z_OFFSET);
-        cube->mesh.addTriangle(-cubeWidth/2,-cubeWidth/2,-cubeWidth/2 + Z_OFFSET,    cubeWidth/2,cubeWidth/2,-cubeWidth/2 + Z_OFFSET,   cubeWidth/2,-cubeWidth/2,-cubeWidth/2 + Z_OFFSET);
-        
-        //Right
-        cube->mesh.addTriangle(cubeWidth/2,-cubeWidth/2,-cubeWidth/2 + Z_OFFSET,    cubeWidth/2,cubeWidth/2,-cubeWidth/2 + Z_OFFSET,   cubeWidth/2,cubeWidth/2,cubeWidth/2 + Z_OFFSET);
-        cube->mesh.addTriangle(cubeWidth/2,-cubeWidth/2,-cubeWidth/2 + Z_OFFSET,    cubeWidth/2,cubeWidth/2,cubeWidth/2 + Z_OFFSET,   cubeWidth/2,-cubeWidth/2,cubeWidth/2 + Z_OFFSET);
-        
-        //Left
-        cube->mesh.addTriangle(-cubeWidth/2,-cubeWidth/2,cubeWidth/2 + Z_OFFSET,    -cubeWidth/2,cubeWidth/2,cubeWidth/2 + Z_OFFSET,   -cubeWidth/2,cubeWidth/2,-cubeWidth/2 + Z_OFFSET);
-        cube->mesh.addTriangle(-cubeWidth/2,-cubeWidth/2,cubeWidth/2 + Z_OFFSET,    -cubeWidth/2,cubeWidth/2,-cubeWidth/2 + Z_OFFSET,   -cubeWidth/2,-cubeWidth/2,-cubeWidth/2 + Z_OFFSET);
-        
-        //Back
-        cube->mesh.addTriangle(cubeWidth/2,-cubeWidth/2,cubeWidth/2 + Z_OFFSET,    cubeWidth/2,cubeWidth/2,cubeWidth/2 + Z_OFFSET,   -cubeWidth/2,cubeWidth/2,cubeWidth/2 + Z_OFFSET);
-        cube->mesh.addTriangle(cubeWidth/2,-cubeWidth/2,cubeWidth/2 + Z_OFFSET,    -cubeWidth/2,cubeWidth/2,cubeWidth/2 + Z_OFFSET,   -cubeWidth/2,-cubeWidth/2,cubeWidth/2 + Z_OFFSET);
-
-        //Top
-        cube->mesh.addTriangle(-cubeWidth/2,cubeWidth/2,-cubeWidth/2 + Z_OFFSET,    -cubeWidth/2,cubeWidth/2,cubeWidth/2 + Z_OFFSET,   cubeWidth/2,cubeWidth/2,cubeWidth/2 + Z_OFFSET);
-        cube->mesh.addTriangle(-cubeWidth/2,cubeWidth/2,-cubeWidth/2 + Z_OFFSET,    cubeWidth/2,cubeWidth/2,cubeWidth/2 + Z_OFFSET,   cubeWidth/2,cubeWidth/2,-cubeWidth/2 + Z_OFFSET);
-
-        //Bottom
-        cube->mesh.addTriangle(cubeWidth/2,-cubeWidth/2,cubeWidth/2 + Z_OFFSET,    -cubeWidth/2,-cubeWidth/2,cubeWidth/2 + Z_OFFSET,   -cubeWidth/2,-cubeWidth/2,-cubeWidth/2 + Z_OFFSET);
-        cube->mesh.addTriangle(cubeWidth/2,-cubeWidth/2,cubeWidth/2 + Z_OFFSET,    -cubeWidth/2,-cubeWidth/2,-cubeWidth/2 + Z_OFFSET,   cubeWidth/2,-cubeWidth/2,-cubeWidth/2 + Z_OFFSET);
-        
-
-
-
-
-        
-        cube->rotation = {0.00,0.005,0.00};
-        cube->velocity = {0.0,0,-0.001};
-        cube->mesh.anchor->x = 0.0f;
-        cube->mesh.anchor->y = 0.0f;
-        cube->mesh.anchor->z = 100.0f;
-
-        this->addObject(cube);
-        /*for(auto triangle : cube->mesh.triangles){
-            triangle->log();
-        }*/
-
         std::cout << "Initialization complete !\n";
     }
     void Engine::loop(float tick){
+        
+        // Buffer that will be shown on the console (initialized with ' ', so empty at first.)
         std::memset(screenBuffer, ' ', SCREEN_WIDTH*SCREEN_HEIGHT*4);
+
+        // Buffer to save the z value of the last object that rewritten the screenBuffer (used to decide if the new object is in front of the last not getting blocked)
         std::memset(zBuffer,0,SCREEN_HEIGHT*SCREEN_WIDTH*4);
+        
+        //Drawing all objects
         /*for(auto object : objects){
             object->update(this, tick,'#');
         }*/
+
+        
         objects[0]->mesh.triangles[0]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'A');
         objects[0]->mesh.triangles[1]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'B');
         /*objects[0]->mesh.triangles[2]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'C');
@@ -167,8 +79,8 @@
         
         
         std::cout << "\x1b[H";
-            for(char output : screenBuffer){
-                putchar(output);
-            }
+        for(char output : screenBuffer){
+            putchar(output);
+        }
         usleep(tick);
     }

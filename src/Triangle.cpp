@@ -50,17 +50,17 @@
 
     void Triangle::DrawLine(Engine * engine, char lineChar, Point & p1, Point & p2, int resolution){
         std::vector<Point*> linePoints;
-        float difX = p2.x - p1.x;
-        float difY = p2.y - p1.y;
-        float difZ = p2.z - p1.z;
+        float difX = p2.position.x - p1.position.x;
+        float difY = p2.position.y - p1.position.y;
+        float difZ = p2.position.z - p1.position.z;
         for(int i = 0; i <= resolution; i++){
-            linePoints.push_back(new Point(p1.x + i* difX/resolution,p1.y + i*difY/resolution,p1.z + i*difZ/resolution));
+            linePoints.push_back(new Point(p1.position.x + i* difX/resolution,p1.position.y + i*difY/resolution,p1.position.z + i*difZ/resolution));
         }
         for(auto point : linePoints){
-            if(point->x + point->y*SCREEN_WIDTH >=0 && point->x + point->y*SCREEN_WIDTH < SCREEN_WIDTH*SCREEN_HEIGHT){
-                if(point->z > engine->zBuffer[(int)point->x + (int) point->y*SCREEN_WIDTH]){
-                    engine->zBuffer[(int)point->x + (int) point->y*SCREEN_WIDTH] = (int) point->z;
-                    engine->screenBuffer[(int)point->x + (int) point->y*SCREEN_WIDTH] = lineChar;
+            if(point->position.x + point->position.y*SCREEN_WIDTH >=0 && point->position.x + point->position.y*SCREEN_WIDTH < SCREEN_WIDTH*SCREEN_HEIGHT){
+                if(point->position.z > engine->zBuffer[(int)point->position.x + (int) point->position.y*SCREEN_WIDTH]){
+                    engine->zBuffer[(int)point->position.x + (int) point->position.y*SCREEN_WIDTH] = (int) point->position.z;
+                    engine->screenBuffer[(int)point->position.x + (int) point->position.y*SCREEN_WIDTH] = lineChar;
                 }
             }
         }
@@ -81,36 +81,36 @@
         engine->multiplyProjectionMatrix(*this->points[2], *projectionBuffer.points[2], *engine->getProjectionMatrix());
 
         // Calculating Screen Buffer Index
-        projectionBufferScreenIndex.points[0]->x = (int) projectionBuffer.points[0]->x*2 + X_OFFSET;
-        projectionBufferScreenIndex.points[0]->y = (int) projectionBuffer.points[0]->y   + Y_OFFSET;
-        projectionBufferScreenIndex.points[0]->z = (int) projectionBuffer.points[0]->z   + Z_OFFSET;
+        projectionBufferScreenIndex.points[0]->position.x = (int) projectionBuffer.points[0]->position.x*2 + X_OFFSET;
+        projectionBufferScreenIndex.points[0]->position.y = (int) projectionBuffer.points[0]->position.y   + Y_OFFSET;
+        projectionBufferScreenIndex.points[0]->position.z = (int) projectionBuffer.points[0]->position.z   + Z_OFFSET;
 
-        projectionBufferScreenIndex.points[1]->x = (int) projectionBuffer.points[1]->x*2 + X_OFFSET;
-        projectionBufferScreenIndex.points[1]->y = (int) projectionBuffer.points[1]->y   + Y_OFFSET;
-        projectionBufferScreenIndex.points[1]->z = (int) projectionBuffer.points[1]->z   + Z_OFFSET;
+        projectionBufferScreenIndex.points[1]->position.x = (int) projectionBuffer.points[1]->position.x*2 + X_OFFSET;
+        projectionBufferScreenIndex.points[1]->position.y = (int) projectionBuffer.points[1]->position.y   + Y_OFFSET;
+        projectionBufferScreenIndex.points[1]->position.z = (int) projectionBuffer.points[1]->position.z   + Z_OFFSET;
 
-        projectionBufferScreenIndex.points[2]->x = (int) projectionBuffer.points[2]->x*2 + X_OFFSET;
-        projectionBufferScreenIndex.points[2]->y = (int) projectionBuffer.points[2]->y   + Y_OFFSET;
-        projectionBufferScreenIndex.points[2]->z = (int) projectionBuffer.points[2]->z   + Z_OFFSET;
+        projectionBufferScreenIndex.points[2]->position.x = (int) projectionBuffer.points[2]->position.x*2 + X_OFFSET;
+        projectionBufferScreenIndex.points[2]->position.y = (int) projectionBuffer.points[2]->position.y   + Y_OFFSET;
+        projectionBufferScreenIndex.points[2]->position.z = (int) projectionBuffer.points[2]->position.z   + Z_OFFSET;
 
         projectionBufferScreenIndex.log();
 
         for(auto point : projectionBufferScreenIndex.points){
-            if(point->x + point->y*SCREEN_WIDTH >=0 && point->x + point->y*SCREEN_WIDTH < SCREEN_WIDTH*SCREEN_HEIGHT){
-                if(point->z > engine->zBuffer[(int)point->x + (int) point->y*SCREEN_WIDTH]){
-                    engine->zBuffer[(int)point->x + (int) point->y*SCREEN_WIDTH] = (int) point->z;
-                    engine->screenBuffer[(int)point->x + (int) point->y*SCREEN_WIDTH] = surfaceChar;
+            if(point->position.x + point->position.y*SCREEN_WIDTH >=0 && point->position.x + point->position.y*SCREEN_WIDTH < SCREEN_WIDTH*SCREEN_HEIGHT){
+                if(point->position.z > engine->zBuffer[(int)point->position.x + (int) point->position.y*SCREEN_WIDTH]){
+                    engine->zBuffer[(int)point->position.x + (int) point->position.y*SCREEN_WIDTH] = (int) point->position.z;
+                    engine->screenBuffer[(int)point->position.x + (int) point->position.y*SCREEN_WIDTH] = surfaceChar;
                 }
             }
         }
-        DrawLine(engine,'1',*projectionBufferScreenIndex.points[0], *projectionBufferScreenIndex.points[1], 5);
-        DrawLine(engine,'2',*projectionBufferScreenIndex.points[1], *projectionBufferScreenIndex.points[2], 5);
-        DrawLine(engine,'0',*projectionBufferScreenIndex.points[2], *projectionBufferScreenIndex.points[0], 5);
+        DrawLine(engine,'1',*projectionBufferScreenIndex.points[0], *projectionBufferScreenIndex.points[1], 10);
+        DrawLine(engine,'2',*projectionBufferScreenIndex.points[1], *projectionBufferScreenIndex.points[2], 10);
+        DrawLine(engine,'0',*projectionBufferScreenIndex.points[2], *projectionBufferScreenIndex.points[0], 10);
     }  
 
     void Triangle::log(){
         std::cout << "\nTriangle ID: " << this->id << "\n";
-        std::cout << "          Point1 : (" << this->points[0]->x << ", " << this->points[0]->y << ", " << this->points[0]->z << ") \n" ;
-        std::cout << "          Point2 : (" << this->points[1]->x << ", " << this->points[1]->y << ", " << this->points[1]->z << ") \n" ;
-        std::cout << "          Point3 : (" << this->points[2]->x << ", " << this->points[2]->y << ", " << this->points[2]->z << ") \n" ;
+        std::cout << "          Point1 : (" << this->points[0]->position.x << ", " << this->points[0]->position.y << ", " << this->points[0]->position.z << ") \n" ;
+        std::cout << "          Point2 : (" << this->points[1]->position.x << ", " << this->points[1]->position.y << ", " << this->points[1]->position.z << ") \n" ;
+        std::cout << "          Point3 : (" << this->points[2]->position.x << ", " << this->points[2]->position.y << ", " << this->points[2]->position.z << ") \n" ;
     }

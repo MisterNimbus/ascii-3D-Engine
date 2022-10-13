@@ -25,6 +25,6 @@ public:
     void addObject(Object* object);
     void multiplyProjectionMatrix(Point &input, Point &output, mat4x4 &projectionMatrix);
     mat4x4 * getProjectionMatrix();
-    void initialize();
+    void initialize(float zOffsetNear, float zFurthest, float fieldOfView);
     void loop(float tick);
 };
