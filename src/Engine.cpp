@@ -58,14 +58,14 @@
         std::memset(zBuffer,0,SCREEN_HEIGHT*SCREEN_WIDTH*4);
         
         //Drawing all objects
-        /*for(auto object : objects){
+        for(auto object : objects){
             object->update(this, tick,'#');
-        }*/
+        }
 
-        
+        /*
         objects[0]->mesh.triangles[0]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'A');
         objects[0]->mesh.triangles[1]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'B');
-        /*objects[0]->mesh.triangles[2]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'C');
+        objects[0]->mesh.triangles[2]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'C');
         objects[0]->mesh.triangles[3]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'D');
         objects[0]->mesh.triangles[4]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'E');
         objects[0]->mesh.triangles[5]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'F');

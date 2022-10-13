@@ -73,30 +73,30 @@
         absolutePosition.points[1] = this->points[1]->applyAnchorOffset(*meshAnchor);
         absolutePosition.points[2] = this->points[2]->applyAnchorOffset(*meshAnchor);
 
-        absolutePosition.log();
+        //absolutePosition.log();
 
         // Applies Projection Matrix and stores resulting triangle in projectionBuffer
-        engine->multiplyProjectionMatrix(*this->points[0], *projectionBuffer.points[0], *engine->getProjectionMatrix());
-        engine->multiplyProjectionMatrix(*this->points[1], *projectionBuffer.points[1], *engine->getProjectionMatrix());
-        engine->multiplyProjectionMatrix(*this->points[2], *projectionBuffer.points[2], *engine->getProjectionMatrix());
+        engine->multiplyProjectionMatrix(*absolutePosition.points[0], *projectionBuffer.points[0], *engine->getProjectionMatrix());
+        engine->multiplyProjectionMatrix(*absolutePosition.points[1], *projectionBuffer.points[1], *engine->getProjectionMatrix());
+        engine->multiplyProjectionMatrix(*absolutePosition.points[2], *projectionBuffer.points[2], *engine->getProjectionMatrix());
 
         // Calculating Screen Buffer Index
         projectionBufferScreenIndex.points[0]->position.x = (int) projectionBuffer.points[0]->position.x*2 + X_OFFSET;
         projectionBufferScreenIndex.points[0]->position.y = (int) projectionBuffer.points[0]->position.y   + Y_OFFSET;
-        projectionBufferScreenIndex.points[0]->position.z = (int) projectionBuffer.points[0]->position.z   + Z_OFFSET;
+        projectionBufferScreenIndex.points[0]->position.z = (int) projectionBuffer.points[0]->position.z;
 
         projectionBufferScreenIndex.points[1]->position.x = (int) projectionBuffer.points[1]->position.x*2 + X_OFFSET;
         projectionBufferScreenIndex.points[1]->position.y = (int) projectionBuffer.points[1]->position.y   + Y_OFFSET;
-        projectionBufferScreenIndex.points[1]->position.z = (int) projectionBuffer.points[1]->position.z   + Z_OFFSET;
+        projectionBufferScreenIndex.points[1]->position.z = (int) projectionBuffer.points[1]->position.z;
 
         projectionBufferScreenIndex.points[2]->position.x = (int) projectionBuffer.points[2]->position.x*2 + X_OFFSET;
         projectionBufferScreenIndex.points[2]->position.y = (int) projectionBuffer.points[2]->position.y   + Y_OFFSET;
-        projectionBufferScreenIndex.points[2]->position.z = (int) projectionBuffer.points[2]->position.z   + Z_OFFSET;
+        projectionBufferScreenIndex.points[2]->position.z = (int) projectionBuffer.points[2]->position.z;
 
-        projectionBufferScreenIndex.log();
+        //projectionBufferScreenIndex.log();
 
         for(auto point : projectionBufferScreenIndex.points){
-            if(point->position.x + point->position.y*SCREEN_WIDTH >=0 && point->position.x + point->position.y*SCREEN_WIDTH < SCREEN_WIDTH*SCREEN_HEIGHT){
+            if((int) point->position.x + (int)point->position.y*SCREEN_WIDTH >=0 && (int)point->position.x + (int) point->position.y*SCREEN_WIDTH < SCREEN_WIDTH*SCREEN_HEIGHT){
                 if(point->position.z > engine->zBuffer[(int)point->position.x + (int) point->position.y*SCREEN_WIDTH]){
                     engine->zBuffer[(int)point->position.x + (int) point->position.y*SCREEN_WIDTH] = (int) point->position.z;
                     engine->screenBuffer[(int)point->position.x + (int) point->position.y*SCREEN_WIDTH] = surfaceChar;
