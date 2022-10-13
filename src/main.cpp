@@ -8,11 +8,8 @@
 #include "include/Point.h"
 #include "include/mathUtils.h"
 
-int main(){
-    std::cout << "\x1b[2J"; // ANSI clearScreen
-    Engine * demo = new Engine();
-    demo->initialize(1.0f, 1000.0f, 5.0f);
-    Point point(1.0f,0.0f,0.0f);
+void pointRotationTest(){
+    Point point(1.0f,2.0f,3.0f);
     point.log();
     rotationVector rotationStep = {90.0f,90.0f,90.0f};
     rotationVector rotation = {0.0f,0.0f,0.0f};
@@ -44,10 +41,58 @@ int main(){
                     << "\n       Yaw: " << rotation.yaw;
         point.log();
         usleep(5000000);
-        //demo->loop(50000);
     }
+}
 
-    return 0;
+
+void pointRotationTest2(){
+    Point point(1.0f,2.0f,3.0f);
+    point.log();
+    rotationVector rotationStep = {90.0f,45.0f,90.0f};
+    rotationVector rotation = {0.0f,0.0f,0.0f};
+    Point pointBuffer = point;
+
+    while(true){
+        
+        /*std::cout << "\n\n======== ROLL ========";
+        rotation.roll += rotationStep.roll;
+        pointBuffer.rotateRoll(rotation.roll);
+        std::cout   << "\nRotation:"
+                    << "\n     Pitch: " << rotation.pitch 
+                    << "\n      Roll: " << rotation.roll 
+                    << "\n       Yaw: " << rotation.yaw;
+        pointBuffer.log();
+        */
+        //pointBuffer = point;
+        //std::cout << "before<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n";
+        //pointBuffer.log();
+        usleep(500000);
+        
+        std::cout << "\n\n======== YAW =========";
+        rotation.yaw += rotationStep.yaw;
+        pointBuffer.rotateYaw(rotationStep.yaw);
+        std::cout   << "\nRotation:"
+                    << "\n     Pitch: " << rotation.pitch 
+                    << "\n      Roll: " << rotation.roll 
+                    << "\n       Yaw: " << rotation.yaw;
+        pointBuffer.log();
+        /*
+        pointBuffer = point;
+        usleep(5000000);
+
+        std::cout << "\n\n======== PITCH =======";
+        rotation.pitch += rotationStep.pitch;
+        pointBuffer.rotatePitch(rotation.pitch);
+        std::cout   << "\nRotation:"
+                    << "\n     Pitch: " << rotation.pitch 
+                    << "\n      Roll: " << rotation.roll 
+                    << "\n       Yaw: " << rotation.yaw;
+        pointBuffer.log();
+        
+        pointBuffer = point;
+        usleep(5000000);
+        */
+    }
 }
 
 Object * createCubeManually(){
@@ -186,4 +231,14 @@ Object * createCubeByRotating(){
         cube->mesh.anchor->position.z = 100.0f;
 
         return cube;
+}
+
+int main(){
+    std::cout << "\x1b[2J"; // ANSI clearScreen
+    Engine * demo = new Engine();
+    demo->initialize(1.0f, 1000.0f, 5.0f);
+    
+    pointRotationTest();
+
+    return 0;
 }

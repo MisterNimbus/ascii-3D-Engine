@@ -9,7 +9,7 @@ public:
     int id;
     Point(float x,float y,float z);
     ~Point();
-    vec1x3 position;
+    vec3x1 position;
     void rotatePoint(float roll_step, float yaw_step, float pitch_step);
     void rotate(rotationVector rotation);
     void rotateRoll(float rollDegree);
