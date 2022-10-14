@@ -11,10 +11,14 @@ const int SCREEN_HEIGHT = 40;
 const int SCREEN_WIDTH = 190;
 const int X_OFFSET = 85;
 const int Y_OFFSET = 20;
-const int Z_OFFSET = 25;
+const int Z_OFFSET = 3;
 
 class Engine {
 private:
+
+    float zFurthest = 100.0f;
+    float zOffsetNear = 1.0f;
+    float fieldOfView = 5.0f;
     std::vector<Object*> objects;
     mat4x4 projectionMatrix = {0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f};
 public:

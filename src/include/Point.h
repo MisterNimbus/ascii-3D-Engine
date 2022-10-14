@@ -19,4 +19,8 @@ public:
     Point * applyAnchorOffset(Point anchor);
     void turnProjectionIntoScreenIndex();
     void log();
+    Point operator+(Point point);
+    Point operator-(Point point);
+    Point operator/(int divisor);
+    Point operator*(int factor);
 };

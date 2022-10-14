@@ -192,3 +192,34 @@ vec3x1 matrixMultiplication(mat3x3 * matrix, vec3x1 * vector){
         std::cout << "    Relative Position to anchor: ( " << this->position.x << ", " << this->position.y << ", " << this->position.z << " ) \n" ;
         std::cout << "             Distance to anchor: " << this->distanceToAnchor() << "\n";
     }
+
+    Point Point::operator+(Point point){
+        Point result= {0,0,0};
+        result.position.x = this->position.x + point.position.x; 
+        result.position.y = this->position.y + point.position.y; 
+        result.position.z = this->position.z + point.position.z;
+        return result;
+    }
+    Point Point::operator-(Point point){
+        Point result= {0,0,0};
+        result.position.x = this->position.x - point.position.x; 
+        result.position.y = this->position.y - point.position.y; 
+        result.position.z = this->position.z - point.position.z;
+        return result;
+
+    }
+    Point Point::operator/(int divisor){
+        Point result= {0,0,0};
+        result.position.x = this->position.x / divisor; 
+        result.position.y = this->position.y / divisor; 
+        result.position.z = this->position.z / divisor; 
+        return result;
+    }
+
+    Point Point::operator*(int divisor){
+        Point result= {0,0,0};
+        result.position.x = this->position.x * divisor; 
+        result.position.y = this->position.y * divisor; 
+        result.position.z = this->position.z * divisor; 
+        return result;
+    }

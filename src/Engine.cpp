@@ -35,17 +35,33 @@
     // zFurthest furthest distance to be rendered from the camera
     // fieldOfView in degrees
     void Engine::initialize(float zOffsetNear, float zFurthest, float fieldOfView){
-
+        this->zFurthest = zFurthest;
+        this->zOffsetNear = zOffsetNear;
+        this->fieldOfView = fieldOfView;
         // Setting up Projection Matrix
-        float fieldOfViewRad = 1.0f / tanf(fieldOfView / 180.0f * 3.14159f);
+        float fieldOfViewRad = 1.0f / tanf(fieldOfView * 3.14159f / 180.0f);
         float aspectRatio = (float) SCREEN_HEIGHT / (float) SCREEN_WIDTH;
 
-        projectionMatrix.m[0][0] = aspectRatio + fieldOfViewRad;
+        //projectionMatrix.m[0][0] = aspectRatio * fieldOfViewRad;
+        projectionMatrix.m[0][0] = fieldOfViewRad;
+        projectionMatrix.m[0][1] = 0;
+        projectionMatrix.m[0][2] = 0;
+        projectionMatrix.m[0][3] = 0;
+
+        projectionMatrix.m[1][0] = 0;
         projectionMatrix.m[1][1] = fieldOfViewRad;
+        projectionMatrix.m[1][2] = 0;
+        projectionMatrix.m[1][3] = 0;
+
+        projectionMatrix.m[2][0] = 0;
+        projectionMatrix.m[2][1] = 0;
         projectionMatrix.m[2][2] = zFurthest / (zFurthest - zOffsetNear);
-        projectionMatrix.m[3][2] = (-zFurthest * zOffsetNear) / (zFurthest - zOffsetNear);
         projectionMatrix.m[2][3] = 1.0f;
-        projectionMatrix.m[3][3] = 0.0f;
+
+        projectionMatrix.m[3][0] = 0;
+        projectionMatrix.m[3][1] = 0;
+        projectionMatrix.m[3][2] = (-zFurthest * zOffsetNear) / (zFurthest - zOffsetNear);
+        projectionMatrix.m[3][3] = 0;
 
         std::cout << "Initialization complete !\n";
     }
@@ -58,29 +74,13 @@
         std::memset(zBuffer,0,SCREEN_HEIGHT*SCREEN_WIDTH*4);
         
         //Drawing all objects
-        /*for(auto object : objects){
-            object->update(this, tick,'#');
-        }*/
-
-        
-        objects[0]->mesh.triangles[0]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'A');
-        objects[0]->mesh.triangles[1]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'B');
-        /*objects[0]->mesh.triangles[2]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'C');
-        objects[0]->mesh.triangles[3]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'D');
-        objects[0]->mesh.triangles[4]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'E');
-        objects[0]->mesh.triangles[5]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'F');
-        objects[0]->mesh.triangles[6]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'G');
-        objects[0]->mesh.triangles[7]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'H');
-        objects[0]->mesh.triangles[8]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'I');
-        objects[0]->mesh.triangles[9]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'J');
-        objects[0]->mesh.triangles[10]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'K');
-        objects[0]->mesh.triangles[11]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'L');
-        */
-        
-        
+        for(auto object : objects){
+            object->update(this, tick);
+        }        
         std::cout << "\x1b[H";
-        for(char output : screenBuffer){
+        for(float output : screenBuffer){
             putchar(output);
+            //std::cout << (int)output;
         }
         usleep(tick);
     }
