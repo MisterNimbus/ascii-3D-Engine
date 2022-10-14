@@ -59,7 +59,7 @@
         for(auto point : linePoints){
             if(point->position.x + point->position.y*SCREEN_WIDTH >=0 && point->position.x + point->position.y*SCREEN_WIDTH < SCREEN_WIDTH*SCREEN_HEIGHT){
                 if(point->position.z > engine->zBuffer[(int)point->position.x + (int) point->position.y*SCREEN_WIDTH]){
-                    engine->zBuffer[(int)point->position.x + (int) point->position.y*SCREEN_WIDTH] = (int) point->position.z;
+                    engine->zBuffer[(int)point->position.x + (int) point->position.y*SCREEN_WIDTH] = point->position.z;
                     engine->screenBuffer[(int)point->position.x + (int) point->position.y*SCREEN_WIDTH] = lineChar;
                 }
             }
@@ -83,22 +83,22 @@
         // Calculating Screen Buffer Index
         projectionBufferScreenIndex.points[0]->position.x = (int) projectionBuffer.points[0]->position.x*2 + X_OFFSET;
         projectionBufferScreenIndex.points[0]->position.y = (int) projectionBuffer.points[0]->position.y   + Y_OFFSET;
-        projectionBufferScreenIndex.points[0]->position.z = (int) projectionBuffer.points[0]->position.z   + Z_OFFSET;
+        projectionBufferScreenIndex.points[0]->position.z =  projectionBuffer.points[0]->position.z   + Z_OFFSET;
 
         projectionBufferScreenIndex.points[1]->position.x = (int) projectionBuffer.points[1]->position.x*2 + X_OFFSET;
         projectionBufferScreenIndex.points[1]->position.y = (int) projectionBuffer.points[1]->position.y   + Y_OFFSET;
-        projectionBufferScreenIndex.points[1]->position.z = (int) projectionBuffer.points[1]->position.z   + Z_OFFSET;
+        projectionBufferScreenIndex.points[1]->position.z =  projectionBuffer.points[1]->position.z   + Z_OFFSET;
 
         projectionBufferScreenIndex.points[2]->position.x = (int) projectionBuffer.points[2]->position.x*2 + X_OFFSET;
         projectionBufferScreenIndex.points[2]->position.y = (int) projectionBuffer.points[2]->position.y   + Y_OFFSET;
-        projectionBufferScreenIndex.points[2]->position.z = (int) projectionBuffer.points[2]->position.z   + Z_OFFSET;
+        projectionBufferScreenIndex.points[2]->position.z =  projectionBuffer.points[2]->position.z   + Z_OFFSET;
 
         //projectionBufferScreenIndex.log();
 
         for(auto point : projectionBufferScreenIndex.points){
             if((int) point->position.x + (int)point->position.y*SCREEN_WIDTH >=0 && (int)point->position.x + (int) point->position.y*SCREEN_WIDTH < SCREEN_WIDTH*SCREEN_HEIGHT){
                 if(point->position.z > engine->zBuffer[(int)point->position.x + (int) point->position.y*SCREEN_WIDTH]){
-                    engine->zBuffer[(int)point->position.x + (int) point->position.y*SCREEN_WIDTH] = (int) point->position.z;
+                    engine->zBuffer[(int)point->position.x + (int) point->position.y*SCREEN_WIDTH] = point->position.z;
                     engine->screenBuffer[(int)point->position.x + (int) point->position.y*SCREEN_WIDTH] = this->surfaceChar;
                 }
             }

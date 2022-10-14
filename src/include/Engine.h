@@ -15,6 +15,10 @@ const int Z_OFFSET = 3;
 
 class Engine {
 private:
+
+    float zFurthest = 100.0f;
+    float zOffsetNear = 1.0f;
+    float fieldOfView = 5.0f;
     std::vector<Object*> objects;
     mat4x4 projectionMatrix = {0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f};
 public:

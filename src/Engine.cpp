@@ -35,17 +35,33 @@
     // zFurthest furthest distance to be rendered from the camera
     // fieldOfView in degrees
     void Engine::initialize(float zOffsetNear, float zFurthest, float fieldOfView){
-
+        this->zFurthest = zFurthest;
+        this->zOffsetNear = zOffsetNear;
+        this->fieldOfView = fieldOfView;
         // Setting up Projection Matrix
-        float fieldOfViewRad = 1.0f / tanf(fieldOfView / 180.0f * 3.14159f);
+        float fieldOfViewRad = 1.0f / tanf(fieldOfView * 3.14159f / 180.0f);
         float aspectRatio = (float) SCREEN_HEIGHT / (float) SCREEN_WIDTH;
 
-        projectionMatrix.m[0][0] = aspectRatio + fieldOfViewRad;
+        //projectionMatrix.m[0][0] = aspectRatio * fieldOfViewRad;
+        projectionMatrix.m[0][0] = fieldOfViewRad;
+        projectionMatrix.m[0][1] = 0;
+        projectionMatrix.m[0][2] = 0;
+        projectionMatrix.m[0][3] = 0;
+
+        projectionMatrix.m[1][0] = 0;
         projectionMatrix.m[1][1] = fieldOfViewRad;
+        projectionMatrix.m[1][2] = 0;
+        projectionMatrix.m[1][3] = 0;
+
+        projectionMatrix.m[2][0] = 0;
+        projectionMatrix.m[2][1] = 0;
         projectionMatrix.m[2][2] = zFurthest / (zFurthest - zOffsetNear);
-        projectionMatrix.m[3][2] = (-zFurthest * zOffsetNear) / (zFurthest - zOffsetNear);
         projectionMatrix.m[2][3] = 1.0f;
-        projectionMatrix.m[3][3] = 0.0f;
+
+        projectionMatrix.m[3][0] = 0;
+        projectionMatrix.m[3][1] = 0;
+        projectionMatrix.m[3][2] = (-zFurthest * zOffsetNear) / (zFurthest - zOffsetNear);
+        projectionMatrix.m[3][3] = 0;
 
         std::cout << "Initialization complete !\n";
     }
@@ -62,8 +78,9 @@
             object->update(this, tick);
         }        
         std::cout << "\x1b[H";
-        for(char output : screenBuffer){
+        for(float output : screenBuffer){
             putchar(output);
+            //std::cout << (int)output;
         }
         usleep(tick);
     }
