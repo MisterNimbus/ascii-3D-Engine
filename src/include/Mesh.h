@@ -15,7 +15,7 @@ public:
     std::vector<Triangle*> triangles;
 
     //moves the anchor point depending on the movementVector of the Object and time elapsed (tick), updates all triangles forming the mesh.
-    void update(Engine * engine, float tick, movementVector velocity, rotationVector rotation, char surfaceChar);
+    void update(Engine * engine, float tick, movementVector velocity, rotationVector rotation);
 
     // To move a mesh move the anchor rather than moving each point on the mesh one by one.
     void moveAnchor(movementVector velocity, float tick);
@@ -24,5 +24,5 @@ public:
     void addTriangle(Triangle * triangle);
 
     //manually creating points of the triangle
-    void addTriangle(float p1x, float p1y, float p1z, float p2x, float p2y, float p2z, float p3x, float p3y, float p3z);
+    void addTriangle(float p1x, float p1y, float p1z, float p2x, float p2y, float p2z, float p3x, float p3y, float p3z, char surfaceChar);
 };

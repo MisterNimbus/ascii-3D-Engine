@@ -59,25 +59,8 @@
         
         //Drawing all objects
         for(auto object : objects){
-            object->update(this, tick,'#');
-        }
-
-        /*
-        objects[0]->mesh.triangles[0]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'A');
-        objects[0]->mesh.triangles[1]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'B');
-        objects[0]->mesh.triangles[2]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'C');
-        objects[0]->mesh.triangles[3]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'D');
-        objects[0]->mesh.triangles[4]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'E');
-        objects[0]->mesh.triangles[5]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'F');
-        objects[0]->mesh.triangles[6]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'G');
-        objects[0]->mesh.triangles[7]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'H');
-        objects[0]->mesh.triangles[8]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'I');
-        objects[0]->mesh.triangles[9]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'J');
-        objects[0]->mesh.triangles[10]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'K');
-        objects[0]->mesh.triangles[11]->update(this, tick, objects[0]->mesh.anchor, objects[0]->rotation, 'L');
-        */
-        
-        
+            object->update(this, tick);
+        }        
         std::cout << "\x1b[H";
         for(char output : screenBuffer){
             putchar(output);

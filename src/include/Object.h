@@ -11,5 +11,5 @@ public:
     Mesh mesh;
     movementVector velocity = {0,0,0};
     rotationVector rotation = {0,0,0};
-    void update(Engine* engine, float tick, char surfaceChar);
+    void update(Engine* engine, float tick);
 };

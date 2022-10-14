@@ -11,7 +11,7 @@ const int SCREEN_HEIGHT = 40;
 const int SCREEN_WIDTH = 190;
 const int X_OFFSET = 85;
 const int Y_OFFSET = 20;
-const int Z_OFFSET = 100;
+const int Z_OFFSET = 3;
 
 class Engine {
 private:
