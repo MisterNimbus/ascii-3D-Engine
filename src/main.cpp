@@ -49,39 +49,30 @@ Object * createCubeManually(){
 
 Object * createCubeByRotating(){
     Object * cube = new Object();
-        
-        // This can also be done by writing one surface by hand and rotating it with triangle.rotate() for each other surface.
-        float cubeWidth = 20;
-        /*
-        //Front
-        cube->mesh.addTriangle(-cubeWidth/2,-cubeWidth/2,-cubeWidth/2 + Z_OFFSET,    -cubeWidth/2,cubeWidth/2,-cubeWidth/2 + Z_OFFSET,   cubeWidth/2,cubeWidth/2,-cubeWidth/2 + Z_OFFSET);
-        cube->mesh.addTriangle(-cubeWidth/2,-cubeWidth/2,-cubeWidth/2 + Z_OFFSET,    cubeWidth/2,cubeWidth/2,-cubeWidth/2 + Z_OFFSET,   cubeWidth/2,-cubeWidth/2,-cubeWidth/2 + Z_OFFSET);
-        
-        //Right
-        cube->mesh.addTriangle(cubeWidth/2,-cubeWidth/2,-cubeWidth/2 + Z_OFFSET,    cubeWidth/2,cubeWidth/2,-cubeWidth/2 + Z_OFFSET,   cubeWidth/2,cubeWidth/2,cubeWidth/2 + Z_OFFSET);
-        cube->mesh.addTriangle(cubeWidth/2,-cubeWidth/2,-cubeWidth/2 + Z_OFFSET,    cubeWidth/2,cubeWidth/2,cubeWidth/2 + Z_OFFSET,   cubeWidth/2,-cubeWidth/2,cubeWidth/2 + Z_OFFSET);
-        
-        //Left
-        cube->mesh.addTriangle(-cubeWidth/2,-cubeWidth/2,cubeWidth/2 + Z_OFFSET,    -cubeWidth/2,cubeWidth/2,cubeWidth/2 + Z_OFFSET,   -cubeWidth/2,cubeWidth/2,-cubeWidth/2 + Z_OFFSET);
-        cube->mesh.addTriangle(-cubeWidth/2,-cubeWidth/2,cubeWidth/2 + Z_OFFSET,    -cubeWidth/2,cubeWidth/2,-cubeWidth/2 + Z_OFFSET,   -cubeWidth/2,-cubeWidth/2,-cubeWidth/2 + Z_OFFSET);
-        
-        //Back
-        cube->mesh.addTriangle(cubeWidth/2,-cubeWidth/2,cubeWidth/2 + Z_OFFSET,    cubeWidth/2,cubeWidth/2,cubeWidth/2 + Z_OFFSET,   -cubeWidth/2,cubeWidth/2,cubeWidth/2 + Z_OFFSET);
-        cube->mesh.addTriangle(cubeWidth/2,-cubeWidth/2,cubeWidth/2 + Z_OFFSET,    -cubeWidth/2,cubeWidth/2,cubeWidth/2 + Z_OFFSET,   -cubeWidth/2,-cubeWidth/2,cubeWidth/2 + Z_OFFSET);
+    float cubeWidth = 10;
 
-        //Top
-        cube->mesh.addTriangle(-cubeWidth/2,cubeWidth/2,-cubeWidth/2 + Z_OFFSET,    -cubeWidth/2,cubeWidth/2,cubeWidth/2 + Z_OFFSET,   cubeWidth/2,cubeWidth/2,cubeWidth/2 + Z_OFFSET);
-        cube->mesh.addTriangle(-cubeWidth/2,cubeWidth/2,-cubeWidth/2 + Z_OFFSET,    cubeWidth/2,cubeWidth/2,cubeWidth/2 + Z_OFFSET,   cubeWidth/2,cubeWidth/2,-cubeWidth/2 + Z_OFFSET);
+    //Front
+    cube->mesh.addTriangle(cubeWidth/2,-cubeWidth/2,cubeWidth/2,    cubeWidth/2,cubeWidth/2,cubeWidth/2 ,   -cubeWidth/2,cubeWidth/2,cubeWidth/2, '+');
+    cube->mesh.addTriangle(cubeWidth/2,-cubeWidth/2,cubeWidth/2,    -cubeWidth/2,cubeWidth/2,cubeWidth/2 ,   -cubeWidth/2,-cubeWidth/2,cubeWidth/2, '+');
 
-        //Bottom
-        cube->mesh.addTriangle(cubeWidth/2,-cubeWidth/2,cubeWidth/2 + Z_OFFSET,    -cubeWidth/2,-cubeWidth/2,cubeWidth/2 + Z_OFFSET,   -cubeWidth/2,-cubeWidth/2,-cubeWidth/2 + Z_OFFSET);
-        cube->mesh.addTriangle(cubeWidth/2,-cubeWidth/2,cubeWidth/2 + Z_OFFSET,    -cubeWidth/2,-cubeWidth/2,-cubeWidth/2 + Z_OFFSET,   cubeWidth/2,-cubeWidth/2,-cubeWidth/2 + Z_OFFSET);
-        */
-        cube->rotation = {0.00,0.005,0.00};
-        cube->velocity = {0.0,0,-0.001};
-        cube->mesh.anchor->position.x = 0.0f;
-        cube->mesh.anchor->position.y = 0.0f;
-        cube->mesh.anchor->position.z = 100.0f;
+    cube->mesh.addTriangle(cube->mesh.triangles[0]->getRotatedTriangle({0,45,0}), '#');
+    cube->mesh.addTriangle(cube->mesh.triangles[1]->getRotatedTriangle({0,45,0}), '#');
+
+    /*cube->mesh.addTriangle(cube->mesh.triangles[0]->getRotatedTriangle({0,0,180}));
+    cube->mesh.addTriangle(cube->mesh.triangles[1]->getRotatedTriangle({0,0,180}));
+
+    cube->mesh.addTriangle(cube->mesh.triangles[0]->getRotatedTriangle({0,0,270}));
+    cube->mesh.addTriangle(cube->mesh.triangles[1]->getRotatedTriangle({0,0,270}));
+
+    cube->mesh.addTriangle(cube->mesh.triangles[0]->getRotatedTriangle({0,90,0}));
+    cube->mesh.addTriangle(cube->mesh.triangles[1]->getRotatedTriangle({0,90,0}));
+
+    cube->mesh.addTriangle(cube->mesh.triangles[0]->getRotatedTriangle({0,270,0}));
+    cube->mesh.addTriangle(cube->mesh.triangles[1]->getRotatedTriangle({0,270,0}));*/
+
+    cube->rotation = {1.0f,0.5f,0.5f};
+    cube->velocity = {0.0f,0.0f,-0.00000f};
+    cube->mesh.anchor->position = {0,0,-15.};
 
         return cube;
 }
@@ -110,8 +101,8 @@ int main(){
     Engine * demo = new Engine();
     demo->initialize(0.1f, 100.0f, 3.0f);
     
+    Object * cube = createCubeByRotating();
     //Object * cube = createCubeManually();
-    Object * cube = createCubeManually();
     demo->addObject(cube);
 
     while(1){

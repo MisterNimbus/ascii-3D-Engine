@@ -21,7 +21,7 @@ public:
     void moveAnchor(movementVector velocity, float tick);
     
     // For creating meshes by writing one triangle by hand and then rotating it to form the others.
-    void addTriangle(Triangle * triangle);
+    void addTriangle(Triangle * triangle, char surfaceChar);
 
     //manually creating points of the triangle
     void addTriangle(float p1x, float p1y, float p1z, float p2x, float p2y, float p2z, float p3x, float p3y, float p3z, char surfaceChar);

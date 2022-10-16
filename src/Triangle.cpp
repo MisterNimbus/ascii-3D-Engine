@@ -40,15 +40,24 @@
         this->points[2] = new Point(p3x,p3y, p3z);
     };
 
-    void Triangle::update(Engine * engine, float tick, Point * meshAnchor, rotationVector rotation){
+    Triangle * Triangle::getRotatedTriangle(rotationVector rotation){
+        Triangle * result = new Triangle(*this);
+        result->rotate(rotation);
+        return result;
+    }
+
+    void Triangle::rotate(rotationVector rotation){
         for(auto point : points){
             point->rotate(rotation);
         }
-        //this->log();
-        this->Draw(engine, meshAnchor);
+    }
+
+    void Triangle::update(Engine * engine, float tick, Point * meshAnchor, rotationVector rotation){
+        this->rotate(rotation);
+        this->draw(engine, meshAnchor);
     };
 
-    void Triangle::DrawLine(Engine * engine, char lineChar, Point & p1, Point & p2, int resolution){
+    void Triangle::drawLine(Engine * engine, char lineChar, Point & p1, Point & p2, int resolution){
         std::vector<Point*> linePoints;
         float difX = p2.position.x - p1.position.x;
         float difY = p2.position.y - p1.position.y;
@@ -66,7 +75,7 @@
         }
     };
 
-    void Triangle::Draw(Engine * engine, Point *meshAnchor){
+    void Triangle::draw(Engine * engine, Point *meshAnchor){
 
         // Applies the Anchor Offset to the points.
         absolutePosition.points[0] = this->points[0]->applyAnchorOffset(*meshAnchor);
@@ -113,10 +122,10 @@
         int resolution20 = (int)sqrt(pow(projectionBufferScreenIndex.points[2]->position.x-projectionBufferScreenIndex.points[0]->position.x,2)+
                                     pow((projectionBufferScreenIndex.points[2]->position.y-projectionBufferScreenIndex.points[0]->position.y),2));
 
-        //Draw Vertices
-        //DrawLine(engine,'.',*projectionBufferScreenIndex.points[0], *projectionBufferScreenIndex.points[1], resolution01);
-        //DrawLine(engine,'.',*projectionBufferScreenIndex.points[1], *projectionBufferScreenIndex.points[2], resolution12);
-        //DrawLine(engine,'.',*projectionBufferScreenIndex.points[2], *projectionBufferScreenIndex.points[0], resolution20);
+        //draw Vertices
+        //drawLine(engine,'.',*projectionBufferScreenIndex.points[0], *projectionBufferScreenIndex.points[1], resolution01);
+        //drawLine(engine,'.',*projectionBufferScreenIndex.points[1], *projectionBufferScreenIndex.points[2], resolution12);
+        //drawLine(engine,'.',*projectionBufferScreenIndex.points[2], *projectionBufferScreenIndex.points[0], resolution20);
 
         //Fill Triangle
         fillSurface(engine, projectionBufferScreenIndex, this->surfaceChar, resolution01, resolution12, resolution20);
@@ -131,7 +140,7 @@
         Point lineStart = *projectionBufferScreenIndex.points[0] + (line01Step*i);
         for(int j=0; j<=resolution20; j++){
         Point lineEnd = *projectionBufferScreenIndex.points[0] + (line02Step*j);
-        DrawLine(engine, surfaceChar, lineStart, lineEnd, resolution12);
+        drawLine(engine, surfaceChar, lineStart, lineEnd, resolution12);
         }
         }
     }
@@ -141,4 +150,8 @@
         std::cout << "          Point1 : (" << this->points[0]->position.x << ", " << this->points[0]->position.y << ", " << this->points[0]->position.z << ") \n" ;
         std::cout << "          Point2 : (" << this->points[1]->position.x << ", " << this->points[1]->position.y << ", " << this->points[1]->position.z << ") \n" ;
         std::cout << "          Point3 : (" << this->points[2]->position.x << ", " << this->points[2]->position.y << ", " << this->points[2]->position.z << ") \n" ;
+    }
+
+    void Triangle::setSurfaceChar(char surfaceChar){
+        this->surfaceChar=surfaceChar;
     }

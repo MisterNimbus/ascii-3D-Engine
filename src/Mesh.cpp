@@ -7,7 +7,8 @@
         }
         
     }
-    void Mesh::addTriangle(Triangle * triangle){
+    void Mesh::addTriangle(Triangle * triangle, char surfaceChar){
+        triangle->setSurfaceChar(surfaceChar);
         this->triangles.push_back(triangle);
     }
     void Mesh::addTriangle(float p1x, float p1y, float p1z, float p2x, float p2y, float p2z, float p3x, float p3y, float p3z, char surfaceChar){
