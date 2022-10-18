@@ -7,22 +7,39 @@
 class Engine;
 
 class Mesh{
-public:
-    // Coordinates of the Points on the Triangles are relative to this anchor point.
+private:
+    // Coordinates of the points forming the Triangles are relative to this anchor point.
     Point * anchor = new Point(0,0,0);
-    
-    // Triangles forming the mesh are stored here
+
+    // Triangles forming the mesh are stored here.
     std::vector<Triangle*> triangles;
 
-    //moves the anchor point depending on the movementVector of the Object and time elapsed (tick), updates all triangles forming the mesh.
+public:
+    // Moves the anchor point according to the movementVector of the Object and updates all triangles inside the triangles vector.
     void update(Engine * engine, float tick, movementVector velocity, rotationVector rotation);
 
-    // To move a mesh move the anchor rather than moving each point on the mesh one by one.
+    // Moves the anchor of the mesh (Moving the anchor, rather than moving each point on the mesh one by one, makes it easier to rotate the object later on.)
     void moveAnchor(movementVector velocity, float tick);
     
-    // For creating meshes by writing one triangle by hand and then rotating it to form the others.
+    // Sets the anchor position
+    void setAnchor(float x, float y, float z);
+    void setAnchor(vec3x1 position);
+
+    // Adds a new triangle to the triangles vector by copying it from a pointer. 
     void addTriangle(Triangle * triangle);
 
-    //manually creating points of the triangle
+    // Adds a new triangle to the triangles vector by copying it from a pointer. Override the surfaceChar stored inside the Triangle.
+    void addTriangle(Triangle * triangle, char surfaceChar);
+
+    // Creates a triangle using the function parameters and adds it to the triangles vector.
     void addTriangle(float p1x, float p1y, float p1z, float p2x, float p2y, float p2z, float p3x, float p3y, float p3z, char surfaceChar);
+
+    // Returns a pointer to the vector that stores the pointers of the triangles forming the mesh.
+    std::vector<Triangle*> * getTriangleVector();
+
+    // Returns a pointer to the triangle that is stored in the triangles vector with the respective index.
+    Triangle * getTriangle(int index);
+
+    // Draws the mesh on the screen.
+    void draw(Engine * engine);
 };

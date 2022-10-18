@@ -16,10 +16,18 @@ vec3x1 matrixMultiplication(mat3x3 * matrix, vec3x1 * vector){
     int Point::nextId=0;
     const float SMALLEST_FLOAT = 0.000001;
 
-    Point::Point(float x,float y,float z):position({x,y,z}){
-        id = nextId;
-        nextId++;
-    };
+Point::Point(Point* point){
+    id = nextId;
+    nextId++;
+    this->position.x = point->position.x;
+    this->position.y = point->position.y;
+    this->position.z = point->position.z;
+}
+
+Point::Point(float x,float y,float z):position({x,y,z}){
+    id = nextId;
+    nextId++;
+};
 
     Point::~Point(){};
     
@@ -185,6 +193,42 @@ vec3x1 matrixMultiplication(mat3x3 * matrix, vec3x1 * vector){
 
     float Point::distanceToAnchor(){
         return std::sqrt(this->position.x*this->position.x + this->position.y * this->position.y + this->position.z*this->position.z);
+    }
+
+    vec3x1 Point::getPosition(){
+        return this->position;
+    }
+
+    float Point::getPositionX(){
+        return this->position.x;
+    }
+    
+    float Point::getPositionY(){
+        return this->position.y;
+    }
+    
+    float Point::getPositionZ(){
+        return this->position.z;
+    }
+
+    int Point::getId(){
+        return this->id;
+    }
+
+    void Point::setPosition(vec3x1 position){
+        this->position = position;
+    }
+    
+    void Point::setPositionX(float x){
+        this->position.x = x;
+    }
+    
+    void Point::setPositionY(float y){
+        this->position.y = y;
+    }
+
+    void Point::setPositionZ(float z){
+        this->position.z = z;
     }
 
     void Point::log(){
