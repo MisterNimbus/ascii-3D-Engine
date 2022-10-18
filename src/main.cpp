@@ -6,6 +6,7 @@
 #include "include/Engine.h"
 #include "include/Object.h"
 #include "include/Point.h"
+#include "include/Triangle.h"
 #include "include/mathUtils.h"
 #include "include/Tests.h"
 
@@ -40,9 +41,9 @@ Object * createCubeManually(){
     cube->mesh.addTriangle(cubeWidth/2,-cubeWidth/2,cubeWidth/2,    -cubeWidth/2,-cubeWidth/2,-cubeWidth/2 ,   cubeWidth/2,-cubeWidth/2,-cubeWidth/2, '@');
     
     //cube->rotation = {0.01f,1.0f,0.5f};
-    cube->rotation = {1.0f,0.5f,0.5f};
+    cube->rotationSpeed = {1.0f,0.5f,0.5f};
     cube->velocity = {0.0f,0.0f,-0.00000f};
-    cube->mesh.anchor->position = {0,0,-15.};
+    cube->mesh.setAnchor({0,0,-15.});
 
     return cube;
 }
@@ -53,28 +54,32 @@ Object * createCubeByRotating(){
 
     //Front
     cube->mesh.addTriangle(cubeWidth/2,-cubeWidth/2,cubeWidth/2,    cubeWidth/2,cubeWidth/2,cubeWidth/2 ,   -cubeWidth/2,cubeWidth/2,cubeWidth/2, '+');
-    cube->mesh.addTriangle(cubeWidth/2,-cubeWidth/2,cubeWidth/2,    -cubeWidth/2,cubeWidth/2,cubeWidth/2 ,   -cubeWidth/2,-cubeWidth/2,cubeWidth/2, '+');
+    cube->mesh.addTriangle(cube->mesh.getTriangle(0)->getRotatedTriangle({0,180,0}), '+');
+    
+    //Left
+    cube->mesh.addTriangle(cube->mesh.getTriangle(0)->getRotatedTriangle({90,0,0}), '&');
+    cube->mesh.addTriangle(cube->mesh.getTriangle(1)->getRotatedTriangle({90,0,0}), '&');
 
-    cube->mesh.addTriangle(cube->mesh.triangles[0]->getRotatedTriangle({0,45,0}), '#');
-    cube->mesh.addTriangle(cube->mesh.triangles[1]->getRotatedTriangle({0,45,0}), '#');
+    cube->mesh.addTriangle(cube->mesh.getTriangle(0)->getRotatedTriangle({180,0,0}), '.');
+    cube->mesh.addTriangle(cube->mesh.getTriangle(1)->getRotatedTriangle({180,0,0}), '.');
 
-    /*cube->mesh.addTriangle(cube->mesh.triangles[0]->getRotatedTriangle({0,0,180}));
-    cube->mesh.addTriangle(cube->mesh.triangles[1]->getRotatedTriangle({0,0,180}));
 
-    cube->mesh.addTriangle(cube->mesh.triangles[0]->getRotatedTriangle({0,0,270}));
-    cube->mesh.addTriangle(cube->mesh.triangles[1]->getRotatedTriangle({0,0,270}));
+    cube->mesh.addTriangle(cube->mesh.getTriangle(0)->getRotatedTriangle({270,0,0}), ':');
+    cube->mesh.addTriangle(cube->mesh.getTriangle(1)->getRotatedTriangle({270,0,0}), ':');
 
-    cube->mesh.addTriangle(cube->mesh.triangles[0]->getRotatedTriangle({0,90,0}));
-    cube->mesh.addTriangle(cube->mesh.triangles[1]->getRotatedTriangle({0,90,0}));
 
-    cube->mesh.addTriangle(cube->mesh.triangles[0]->getRotatedTriangle({0,270,0}));
-    cube->mesh.addTriangle(cube->mesh.triangles[1]->getRotatedTriangle({0,270,0}));*/
+    cube->mesh.addTriangle(cube->mesh.getTriangle(0)->getRotatedTriangle({0,0,90}), '_');
+    cube->mesh.addTriangle(cube->mesh.getTriangle(1)->getRotatedTriangle({0,0,90}), '_');
 
-    cube->rotation = {1.0f,0.5f,0.5f};
+
+    cube->mesh.addTriangle(cube->mesh.getTriangle(0)->getRotatedTriangle({0,0,270}), '=');
+    cube->mesh.addTriangle(cube->mesh.getTriangle(1)->getRotatedTriangle({0,0,270}), '=');
+
+    cube->rotationSpeed = {1.0f,0.0f,1.0f};
     cube->velocity = {0.0f,0.0f,-0.00000f};
-    cube->mesh.anchor->position = {0,0,-15.};
+    cube->mesh.setAnchor({0,0,-15.});
 
-        return cube;
+    return cube;
 }
 
 Object * createOverlappingObject(){
@@ -89,16 +94,18 @@ Object * createOverlappingObject(){
     cube->mesh.addTriangle(-cubeWidth/2,-cubeWidth/2,-cubeWidth/2,    -cubeWidth/2,cubeWidth/2,-cubeWidth/2 ,   cubeWidth/2,cubeWidth/2,-cubeWidth/2 , '.');
     
     //cube->rotation = {0.01f,1.0f,0.5f};
-    cube->rotation = {0.5f,0.0f,0.0f};
+    cube->rotationSpeed = {0.5f,0.0f,0.0f};
     cube->velocity = {0.0f,0.0f,-0.0f};
-    cube->mesh.anchor->position = {0,0,-15.};
+    cube->mesh.setAnchor({0,0,-15.});
 
     return cube;
 }
 
 int main(){
     std::cout << "\x1b[2J"; // ANSI clearScreen
+
     Engine * demo = new Engine();
+
     demo->initialize(0.1f, 100.0f, 3.0f);
     
     Object * cube = createCubeByRotating();
@@ -106,7 +113,7 @@ int main(){
     demo->addObject(cube);
 
     while(1){
-        demo->loop(5000);
+        demo->loop(5000, true, true);
     }
 
     return 0;

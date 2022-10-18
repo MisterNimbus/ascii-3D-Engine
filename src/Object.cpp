@@ -3,5 +3,9 @@
     Object::Object(){};
 
     void Object::update(Engine * engine, float tick){
-        mesh.update(engine, tick, velocity, rotation);
+        this->mesh.update(engine, tick, velocity, rotationSpeed);
+    }
+
+    void Object::draw(Engine * engine){
+        this->mesh.draw(engine);
     }

@@ -14,15 +14,16 @@
         this->objects.push_back(object);
     }
     void Engine::multiplyProjectionMatrix(Point &input, Point &output, mat4x4 &projectionMatrix){
-        output.position.x = input.position.x * projectionMatrix.m[0][0] + input.position.y * projectionMatrix.m[1][0] + input.position.z * projectionMatrix.m[2][0]+ projectionMatrix.m[3][0];
-        output.position.y = input.position.x * projectionMatrix.m[0][1] + input.position.y * projectionMatrix.m[1][1] + input.position.z * projectionMatrix.m[2][1]+ projectionMatrix.m[3][1];
-        output.position.z = input.position.x * projectionMatrix.m[0][2] + input.position.y * projectionMatrix.m[1][2] + input.position.z * projectionMatrix.m[2][2]+ projectionMatrix.m[3][2];
-        float w  = input.position.x * projectionMatrix.m[0][3] + input.position.y * projectionMatrix.m[1][3] + input.position.z * projectionMatrix.m[2][3]+ projectionMatrix.m[3][3];
+        output.setPositionX(input.getPositionX() * projectionMatrix.m[0][0] + input.getPositionY() * projectionMatrix.m[1][0] + input.getPositionZ() * projectionMatrix.m[2][0]+ projectionMatrix.m[3][0]);
+        output.setPositionY(input.getPositionX() * projectionMatrix.m[0][1] + input.getPositionY() * projectionMatrix.m[1][1] + input.getPositionZ() * projectionMatrix.m[2][1]+ projectionMatrix.m[3][1]);
+        output.setPositionZ(input.getPositionX() * projectionMatrix.m[0][2] + input.getPositionY() * projectionMatrix.m[1][2] + input.getPositionZ() * projectionMatrix.m[2][2]+ projectionMatrix.m[3][2]);
+        float w  = input.getPositionX() * projectionMatrix.m[0][3] + input.getPositionY() * projectionMatrix.m[1][3] + input.getPositionZ() * projectionMatrix.m[2][3]+ projectionMatrix.m[3][3];
         if(w != 0.0f)
         {
-            output.position.x /= w;
-            output.position.y /= w;
-            output.position.z /= w;
+            output.setPosition({
+                output.getPositionX()/w,
+                output.getPositionY()/w,
+                output.getPositionZ()/w});
         }
     }
 
@@ -35,12 +36,13 @@
     // zFurthest furthest distance to be rendered from the camera
     // fieldOfView in degrees
     void Engine::initialize(float zOffsetNear, float zFurthest, float fieldOfView){
+
+        // Setting up Projection Matrix
         this->zFurthest = zFurthest;
         this->zOffsetNear = zOffsetNear;
         this->fieldOfView = fieldOfView;
-        // Setting up Projection Matrix
         float fieldOfViewRad = 1.0f / tanf(fieldOfView * 3.14159f / 180.0f);
-        float aspectRatio = (float) SCREEN_HEIGHT / (float) SCREEN_WIDTH;
+        //float aspectRatio = (float) SCREEN_HEIGHT / (float) SCREEN_WIDTH;
 
         //projectionMatrix.m[0][0] = aspectRatio * fieldOfViewRad;
         projectionMatrix.m[0][0] = fieldOfViewRad;
@@ -65,7 +67,7 @@
 
         std::cout << "Initialization complete !\n";
     }
-    void Engine::loop(float tick){
+    void Engine::loop(float tick, bool update, bool draw){
         
         // Buffer that will be shown on the console (initialized with ' ', so empty at first.)
         std::memset(screenBuffer, ' ', SCREEN_WIDTH*SCREEN_HEIGHT*4);
@@ -75,12 +77,13 @@
         
         //Drawing all objects
         for(auto object : objects){
-            object->update(this, tick);
-        }        
+            if(update){object->update(this, tick);}
+            if(draw){object->draw(this);}
+        }
+        if(draw){
         std::cout << "\x1b[H";
         for(float output : screenBuffer){
             putchar(output);
-            //std::cout << (int)output;
-        }
+        }}
         usleep(tick);
     }
