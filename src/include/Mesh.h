@@ -24,6 +24,7 @@ public:
     // Sets the anchor position
     void setAnchor(float x, float y, float z);
     void setAnchor(vec3x1 position);
+    void setAnchor(Point point);
 
     // Adds a new triangle to the triangles vector by copying it from a pointer. 
     void addTriangle(Triangle * triangle);

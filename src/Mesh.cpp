@@ -1,4 +1,5 @@
 #include "./include/Mesh.h"
+#include "include/Point.h"
 
 void Mesh::update(Engine * engine, float tick, movementVector velocity, rotationVector rotation){
     this->moveAnchor(velocity,tick);
@@ -33,6 +34,10 @@ void Mesh::setAnchor(float x, float y, float z){
 
 void Mesh::setAnchor(vec3x1 position){
     this->anchor->setPosition(position);
+}
+
+void Mesh::setAnchor(Point point){
+    this->setAnchor(point.getPosition());
 }
 
 std::vector<Triangle*> * Mesh::getTriangleVector(){

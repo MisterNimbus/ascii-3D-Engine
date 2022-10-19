@@ -24,6 +24,12 @@ Point::Point(Point* point){
     this->position.z = point->position.z;
 }
 
+Point::Point(vec3x1 position){
+    id = nextId;
+    nextId++;
+    this->setPosition(position);
+}
+
 Point::Point(float x,float y,float z):position({x,y,z}){
     id = nextId;
     nextId++;
