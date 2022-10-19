@@ -74,19 +74,20 @@ Object * createTriangleBasedPyramid(float triangleCornerDistance, Point anchorPo
     Object * pyramid = new Object;
 
     Point * corner1 = new Point(0,triangleCornerDistance,0);
-    
+    corner1->rotate({0,0,0});
     Point * corner2 = new Point(corner1);
-    corner2->rotate({120,-120,0});
+    corner2->rotate({30,-120,0});
     Point * corner3 = new Point(corner1);
-    corner3->rotate({120,120,0});
+    corner3->rotate({30,120,0});
 
     Triangle* triangle = new Triangle(corner1,corner2, corner3);
-    pyramid->mesh.addTriangle(0,0,0,0,0,0,0,0,0,'*');
+    
     pyramid->mesh.addTriangle(triangle,surfaceChars[0]);
+    pyramid->mesh.addTriangle(0,0,0,0,0,0,0,0,0,'*'); //Anchor Point
 
-    pyramid->mesh.addTriangle(pyramid->mesh.getTriangle(0)->getRotatedTriangle({120,0,0}), surfaceChars[1]);
-    //pyramid->mesh.addTriangle(pyramid->mesh.getTriangle(0)->getRotatedTriangle({0,0,120}), surfaceChars[2]);
-    //pyramid->mesh.addTriangle(pyramid->mesh.getTriangle(0)->getRotatedTriangle({120,120,120}), surfaceChars[3]);
+    pyramid->mesh.addTriangle(pyramid->mesh.getTriangle(0)->getRotatedTriangle({0,0,120}), surfaceChars[1]);
+    pyramid->mesh.addTriangle(pyramid->mesh.getTriangle(0)->getRotatedTriangle({0,0,240}), surfaceChars[2]);
+    pyramid->mesh.addTriangle(new Triangle(new Point(pyramid->mesh.getTriangle(0)->getPoint(2)->getPosition()),new Point(pyramid->mesh.getTriangle(2)->getPoint(1)->getPosition()),new Point(pyramid->mesh.getTriangle(2)->getPoint(2)->getPosition())),surfaceChars[3]);
 
     pyramid->rotationSpeed = rotationSpeed;
     pyramid->velocity = velocity;

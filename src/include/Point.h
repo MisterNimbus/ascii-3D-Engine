@@ -10,6 +10,7 @@ protected:
 public:
     //Constuctors
     Point(Point * point);
+    Point(vec3x1 position);
     Point(float x,float y,float z);
 
     //Destructor

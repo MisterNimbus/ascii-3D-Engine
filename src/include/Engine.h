@@ -7,8 +7,10 @@
 #include "./Object.h"
 #include "Point.h"
 
-const int SCREEN_HEIGHT = 40;
+
 const int SCREEN_WIDTH = 190;
+const int SCREEN_HEIGHT = 40;
+
 const int X_OFFSET = 85;
 const int Y_OFFSET = 20;
 const int Z_OFFSET = 3;
