@@ -70,8 +70,8 @@ Object * createCubeManually(float cubeWidth, Point anchorPosition, rotationVecto
     return cube;
 }
 
-Object * createTriangleBasedPyramid(float triangleCornerDistance, Point anchorPosition, rotationVector rotationSpeed, movementVector velocity, std::string surfaceChars){
-    Object * pyramid = new Object;
+Object * createTetrahedron(float triangleCornerDistance, Point anchorPosition, rotationVector rotationSpeed, movementVector velocity, std::string surfaceChars){
+    Object * tetrahedron = new Object;
 
     Point * corner1 = new Point(0,triangleCornerDistance,0);
     corner1->rotate({0,0,0});
@@ -82,15 +82,27 @@ Object * createTriangleBasedPyramid(float triangleCornerDistance, Point anchorPo
 
     Triangle* triangle = new Triangle(corner1,corner2, corner3);
     
-    pyramid->mesh.addTriangle(triangle,surfaceChars[0]);
-    pyramid->mesh.addTriangle(0,0,0,0,0,0,0,0,0,'*'); //Anchor Point
+    tetrahedron->mesh.addTriangle(triangle,surfaceChars[0]);
+    tetrahedron->mesh.addTriangle(0,0,0,0,0,0,0,0,0,'*'); //Anchor Point
 
-    pyramid->mesh.addTriangle(pyramid->mesh.getTriangle(0)->getRotatedTriangle({0,0,120}), surfaceChars[1]);
-    pyramid->mesh.addTriangle(pyramid->mesh.getTriangle(0)->getRotatedTriangle({0,0,240}), surfaceChars[2]);
-    pyramid->mesh.addTriangle(new Triangle(new Point(pyramid->mesh.getTriangle(0)->getPoint(2)->getPosition()),new Point(pyramid->mesh.getTriangle(2)->getPoint(1)->getPosition()),new Point(pyramid->mesh.getTriangle(2)->getPoint(2)->getPosition())),surfaceChars[3]);
+    tetrahedron->mesh.addTriangle(tetrahedron->mesh.getTriangle(0)->getRotatedTriangle({0,0,120}), surfaceChars[1]);
+    tetrahedron->mesh.addTriangle(tetrahedron->mesh.getTriangle(0)->getRotatedTriangle({0,0,240}), surfaceChars[2]);
+    tetrahedron->mesh.addTriangle(new Triangle(new Point(tetrahedron->mesh.getTriangle(0)->getPoint(2)->getPosition()),new Point(tetrahedron->mesh.getTriangle(2)->getPoint(1)->getPosition()),new Point(tetrahedron->mesh.getTriangle(2)->getPoint(2)->getPosition())),surfaceChars[3]);
 
-    pyramid->rotationSpeed = rotationSpeed;
-    pyramid->velocity = velocity;
-    pyramid->mesh.setAnchor(anchorPosition);
-    return pyramid;
+    tetrahedron->rotationSpeed = rotationSpeed;
+    tetrahedron->velocity = velocity;
+    tetrahedron->mesh.setAnchor(anchorPosition);
+    return tetrahedron;
+}
+
+Object * createDodecahedron(float triangleCornerDistance, Point anchorPosition, rotationVector rotationSpeed, movementVector velocity, std::string surfaceChars){
+    Object * dodecahedron = new Object;
+
+    return dodecahedron;
+}
+
+Object * createIcosahedron(float triangleCornerDistance, Point anchorPosition, rotationVector rotationSpeed, movementVector velocity, std::string surfaceChars){
+    Object * icosahedron = new Object;
+
+    return icosahedron;
 }
