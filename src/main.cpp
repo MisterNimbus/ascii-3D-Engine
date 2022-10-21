@@ -14,7 +14,8 @@
 
 int main(){
     std::cout << "\x1b[2J"; // ANSI clearScreen
-    Object * tetrahedron = createTetrahedron(5,{0,0,-15},{1,0,0.5},{0,0,0}, "$#_/");
-    rotatingObjectDemo(tetrahedron);
+    //Object * tetrahedron = createTetrahedron(5,{0,0,-15},{1,0,0.5},{0,0,0}, "$#_/");
+    //rotatingObjectDemo(tetrahedron);
+    normalVecTest();
     return 0;
 }

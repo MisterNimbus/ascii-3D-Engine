@@ -40,6 +40,11 @@ public:
 
     // Returns the surfaceChar of the triangle
     char getSurfaceChar();
+
+    // Returns the normal of the Triangle
+    vec3x1 getNormal();
+
+    rotationVector getRotationOfNormal();
     
     // Rotates all three points forming the triangle around the anchor point ((0,0,0) relative to the triangle points)
     void rotate(rotationVector rotation);
