@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cmath>
+#include <math.h>
 
 float const PI = 3.141519265359;
 
@@ -53,6 +54,14 @@ public:
         result.x = this->y * vector2.z - this->z * vector2.y;
         result.y = this->z * vector2.x - this->x * vector2.z;
         result.z = this->x * vector2.y - this->y * vector2.x;
+        return result;
+    }
+
+    vec3x1 convertToSphericalCoordinates(){
+        vec3x1 result;
+        result.x=this->length(); //radius
+        result.y=(acos(this->z/result.x)/PI)*180; // inclination
+        result.z=((atan2(this->y,this->x))/PI)*180; //azimuth
         return result;
     }
 

@@ -9,6 +9,17 @@
 #include <ostream>
 #include <vector>
 
+
+
+std::vector<std::string> surfaceChars2 ={"1","2","3","4","5"};
+
+std::vector<std::string> surfaceChars ={
+                                            //".:-=+*",
+                                        //",~<#%@",
+                                        //"..........::::::::::----------==========++++++++++********************++++++++++==========----------:::::::::........."};
+        "....:::==##@##==:::...."};
+
+
 // For setting the starting value of unique triangle Ids to 0.
 int Triangle::nextId = 0;
 
@@ -53,7 +64,7 @@ Triangle::Triangle(Point *p1, Point *p2, Point *p3, char surfaceChar)
 };
 
 Triangle::Triangle(float p1x, float p1y, float p1z, float p2x, float p2y,
-                   float p2z, float p3x, float p3y, float p3z, char surfaceChar)
+                  float p2z, float p3x, float p3y, float p3z, char surfaceChar)
     : surfaceChar(surfaceChar) {
   this->id = nextId;
   Triangle::nextId++;
@@ -87,13 +98,17 @@ vec3x1 Triangle::getNormal() {
   return result;
 }
 
-rotationVector Triangle::getRotationOfNormal() {
-  rotationVector rotationVector;
-  vec3x1 normal = this->getNormal();
-  rotationVector.yaw = (asin(normal.y) / PI) * 180;
-  rotationVector.pitch = (asin(normal.z)/ PI) * 180;
-  rotationVector.roll = ((asin(normal.x)/ PI) * 180);
-  return rotationVector;
+char Triangle::getOrientedSurfaceChar(std::vector<std::string> surfaceChars){
+  vec3x1 normalInSpherical = this->getNormal().convertToSphericalCoordinates();
+  float inclinationStep = 180.f / surfaceChars.at(0).length();
+  int inclinationIndex = ( normalInSpherical.y / inclinationStep);
+  //std::cout << "inclination: " << normalInSpherical.y << " azimuth: " << normalInSpherical.z << "\n";
+  normalInSpherical.z = (int) (normalInSpherical.z)% 90;
+  int azimuthStep = 90/surfaceChars.size();
+  
+  int azimuthIndex = (int) std::abs(normalInSpherical.z / azimuthStep)%surfaceChars.at(0).length();
+  //std::cout << "azimuthIndex: " << azimuthIndex << "  inclinationIndex: " << inclinationIndex << "  \n";
+  return surfaceChars[azimuthIndex][inclinationIndex];
 }
 
 void Triangle::rotate(rotationVector rotation) {
@@ -231,7 +246,10 @@ void Triangle::draw(Engine *engine, Point *meshAnchor) {
   // *projectionBufferScreenIndex.points[0], resolution20);
 
   // Fill Triangle
-  fillSurface(engine, projectionBufferScreenIndex, this->surfaceChar,
+  //fillSurface(engine, projectionBufferScreenIndex, this->surfaceChar,
+  //            resolution01, resolution12, resolution20);
+  
+  fillSurface(engine, projectionBufferScreenIndex, this->getOrientedSurfaceChar(surfaceChars),
               resolution01, resolution12, resolution20);
 }
 
@@ -268,12 +286,6 @@ void Triangle::log() {
   std::cout << "          Point3 : (" << this->points[2]->getPositionX() << ", "
             << this->points[2]->getPositionY() << ", "
             << this->points[2]->getPositionZ() << ")            \n";
-  std::cout << "          Normal : (" << this->getNormal().x << ", "
-            << this->getNormal().y << ", " << this->getNormal().z << ")           "
-            << std::endl;
-  std::cout << "     Orientation : (" << this->getRotationOfNormal().roll
-            << ", " << this->getRotationOfNormal().yaw << ", "
-            << this->getRotationOfNormal().pitch << ")              " << std::endl;
 }
 
 void Triangle::setSurfaceChar(char surfaceChar) {

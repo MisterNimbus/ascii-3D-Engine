@@ -2,6 +2,8 @@
 
 #include "./mathUtils.h"
 #include "./Point.h"
+#include <string>
+#include <vector>
 
 class Engine;
 
@@ -44,7 +46,7 @@ public:
     // Returns the normal of the Triangle
     vec3x1 getNormal();
 
-    rotationVector getRotationOfNormal();
+    char getOrientedSurfaceChar(std::vector<std::string> surfaceChars);
     
     // Rotates all three points forming the triangle around the anchor point ((0,0,0) relative to the triangle points)
     void rotate(rotationVector rotation);
