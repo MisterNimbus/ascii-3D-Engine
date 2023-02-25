@@ -249,7 +249,10 @@ void Triangle::draw(Engine *engine, Point *meshAnchor) {
   //fillSurface(engine, projectionBufferScreenIndex, this->surfaceChar,
   //            resolution01, resolution12, resolution20);
   
-  fillSurface(engine, projectionBufferScreenIndex, this->getOrientedSurfaceChar(surfaceChars),
+  //fillSurface(engine, projectionBufferScreenIndex, this->getOrientedSurfaceChar(surfaceChars),
+  //            resolution01, resolution12, resolution20);
+
+  fillSurface(engine, projectionBufferScreenIndex, this->getSurfaceChar(),
               resolution01, resolution12, resolution20);
 }
 
