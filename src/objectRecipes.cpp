@@ -70,27 +70,39 @@ Object * createCubeManually(float cubeWidth, Point anchorPosition, rotationVecto
     return cube;
 }
 
-Object * createTriangleBasedPyramid(float triangleCornerDistance, Point anchorPosition, rotationVector rotationSpeed, movementVector velocity, std::string surfaceChars){
-    Object * pyramid = new Object;
+Object * createTetrahedron(float baseDistance, Point anchorPosition, rotationVector rotationSpeed, movementVector velocity, std::string surfaceChars){
+    Object * tetrahedron = new Object;
 
-    Point * corner1 = new Point(0,triangleCornerDistance,0);
-    corner1->rotate({0,0,0});
-    Point * corner2 = new Point(corner1);
-    corner2->rotate({30,-120,0});
-    Point * corner3 = new Point(corner1);
-    corner3->rotate({30,120,0});
-
+    Point * corner1 = new Point(-baseDistance,-baseDistance,-baseDistance);
+    Point * corner2 = new Point(baseDistance,-baseDistance,baseDistance);
+    Point * corner3 = new Point(baseDistance,baseDistance,-baseDistance);
     Triangle* triangle = new Triangle(corner1,corner2, corner3);
+    tetrahedron->mesh.addTriangle(triangle,surfaceChars[0]);
+
+    tetrahedron->mesh.addTriangle(tetrahedron->mesh.getTriangle(0)->getRotatedTriangle({180,0,0}), surfaceChars[1]);
+
+    corner1 = new Point(-baseDistance,-baseDistance,-baseDistance);
+    corner2 = new Point(-baseDistance,baseDistance,baseDistance);
+    corner3 = new Point(baseDistance,baseDistance,-baseDistance);
+    triangle = new Triangle(corner1,corner2, corner3);
+    tetrahedron->mesh.addTriangle(triangle,surfaceChars[2]);
+
+    tetrahedron->mesh.addTriangle(tetrahedron->mesh.getTriangle(2)->getRotatedTriangle({180,0,0}), surfaceChars[3]);
+
+    tetrahedron->rotationSpeed = rotationSpeed;
+    tetrahedron->velocity = velocity;
+    tetrahedron->mesh.setAnchor(anchorPosition);
+    return tetrahedron;
+}
+
+Object * createDodecahedron(float triangleCornerDistance, Point anchorPosition, rotationVector rotationSpeed, movementVector velocity, std::string surfaceChars){
+    Object * dodecahedron = new Object;
+
+    return dodecahedron;
+}
+
+Object * createIcosahedron(float triangleCornerDistance, Point anchorPosition, rotationVector rotationSpeed, movementVector velocity, std::string surfaceChars){
+    Object * icosahedron = new Object;
     
-    pyramid->mesh.addTriangle(triangle,surfaceChars[0]);
-    pyramid->mesh.addTriangle(0,0,0,0,0,0,0,0,0,'*'); //Anchor Point
-
-    pyramid->mesh.addTriangle(pyramid->mesh.getTriangle(0)->getRotatedTriangle({0,0,120}), surfaceChars[1]);
-    pyramid->mesh.addTriangle(pyramid->mesh.getTriangle(0)->getRotatedTriangle({0,0,240}), surfaceChars[2]);
-    pyramid->mesh.addTriangle(new Triangle(new Point(pyramid->mesh.getTriangle(0)->getPoint(2)->getPosition()),new Point(pyramid->mesh.getTriangle(2)->getPoint(1)->getPosition()),new Point(pyramid->mesh.getTriangle(2)->getPoint(2)->getPosition())),surfaceChars[3]);
-
-    pyramid->rotationSpeed = rotationSpeed;
-    pyramid->velocity = velocity;
-    pyramid->mesh.setAnchor(anchorPosition);
-    return pyramid;
+    return icosahedron;
 }
