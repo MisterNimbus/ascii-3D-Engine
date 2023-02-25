@@ -18,35 +18,35 @@ make run
 
 ## Visuals
 <p align="center">
-   <img src="https://github.com/MisterNimbus/ascii-3D-Engine/blob/rework/imgs/menu.jpg" width="100%" />
+   <img src="https://github.com/MisterNimbus/ascii-3D-Engine/blob/main/imgs/menu.jpg" width="100%" />
 <div align="center">
   ⬆ Opening Dialog
   </div>
 </p>
 
 <p align="center">
-   <img src="https://github.com/MisterNimbus/ascii-3D-Engine/blob/rework/imgs/rotating_cube.gif" width="100%" />
+   <img src="https://github.com/MisterNimbus/ascii-3D-Engine/blob/main/imgs/rotating_cube.gif" width="100%" />
 <div align="center">
   ⬆ Rotating Cube
   </div>
 </p>
 
 <p align="center">
-   <img src="https://github.com/MisterNimbus/ascii-3D-Engine/blob/rework/imgs/rotating_cube_5x.gif" width="100%" />
+   <img src="https://github.com/MisterNimbus/ascii-3D-Engine/blob/main/imgs/rotating_cube_5x.gif" width="100%" />
 <div align="center">
   ⬆ Rotating Cube (accelerated 5 times)
   </div>
 </p>
 
 <p align="center">
-   <img src="https://github.com/MisterNimbus/ascii-3D-Engine/blob/rework/imgs/rotating_tetrahedron.gif" width="100%" />
+   <img src="https://github.com/MisterNimbus/ascii-3D-Engine/blob/main/imgs/rotating_tetrahedron.gif" width="100%" />
 <div align="center">
   ⬆ Rotating Tetrahedron
   </div>
 </p>
 
 <p align="center">
-   <img src="https://github.com/MisterNimbus/ascii-3D-Engine/blob/rework/imgs/rotating_tetrahedron_5x.gif" width="100%" />
+   <img src="https://github.com/MisterNimbus/ascii-3D-Engine/blob/main/imgs/rotating_tetrahedron_5x.gif" width="100%" />
 <div align="center">
   ⬆ Rotating Tetrahedron (accelerated 5 times)
   </div>
